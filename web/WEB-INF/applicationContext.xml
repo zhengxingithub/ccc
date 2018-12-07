@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+">
+<context:component-scan base-package="com.tecode"/>
+    <context:property-placeholder location="classpath*:db.properties"/>
+    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${diver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${users}"/>
+        <property name="password" value="${password}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <property name="packagesToScan" value="com.tecode.model"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+<bean id="hibernateTempnate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+    <property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+<bean id="txmanager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+
+</beans>

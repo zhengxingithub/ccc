@@ -1,0 +1,5 @@
+<root>
+    <item name='org.hibernate.criterion.DetachedCriteria'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
